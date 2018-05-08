@@ -55,6 +55,23 @@ public class LedController {
 		return checkState();
 	}
 
+	@RequestMapping("/off4")
+	public String off4() {
+		getPin4().low();
+		return checkState();
+	}
+	@RequestMapping("/on4")
+	public String on4() throws CCCError {
+		try {
+		getPin4().high();
+		}catch(Exception e) {
+			//throw new CCCError(Constants.DEVICE_NOT_FOUND, Constants.DEVICE_NOT_ACCESSIBLE);
+			System.out.println("Exception Occured:"+e.getMessage());
+			
+		}
+		return checkState();
+	}
+
 	@RequestMapping("/off")
 	public String off() {
 		getPin().low();
@@ -85,6 +102,13 @@ public class LedController {
 		if (pin == null) {
 			GpioController gpio = GpioFactory.getInstance();
 			pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED", PinState.LOW);
+		}
+		return pin;
+	}
+	private GpioPinDigitalOutput getPin4() {
+		if (pin == null) {
+			GpioController gpio = GpioFactory.getInstance();
+			pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_04, "MyLED", PinState.LOW);
 		}
 		return pin;
 	}
