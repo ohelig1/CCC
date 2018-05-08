@@ -55,15 +55,15 @@ public class LedController {
 		return checkState();
 	}
 
-	@RequestMapping("/off26")
+	@RequestMapping("/off25")
 	public String off4() {
-		getPin26().low();
+		getPin25().low();
 		return checkState();
 	}
-	@RequestMapping("/on26")
+	@RequestMapping("/on25")
 	public String on4() throws CCCError {
 		try {
-		getPin26().high();
+		getPin25().high();
 		}catch(Exception e) {
 			//throw new CCCError(Constants.DEVICE_NOT_FOUND, Constants.DEVICE_NOT_ACCESSIBLE);
 			System.out.println("Exception Occured:"+e.getMessage());
@@ -71,9 +71,9 @@ public class LedController {
 		}
 		return checkState();
 	}
-	@RequestMapping("/state26")
+	@RequestMapping("/state25")
 	public String status() {
-		return getPin26().getState().toString();
+		return getPin25().getState().toString();
 	}
 
 	@RequestMapping("/off")
@@ -109,10 +109,10 @@ public class LedController {
 		}
 		return pin;
 	}
-	private GpioPinDigitalOutput getPin26() {
+	private GpioPinDigitalOutput getPin25() {
 		if (pin == null) {
 			GpioController gpio = GpioFactory.getInstance();
-			pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MyLED", PinState.LOW);
+			pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_25, "MyLED", PinState.LOW);
 		}
 		return pin;
 	}
