@@ -2,9 +2,7 @@ package com.klu.ccc;
 
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.klu.error.CCCError;
-import com.klu.utility.Constants;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
@@ -17,25 +15,18 @@ public class LedController {
 
 	@RequestMapping("/")
 	public String greeting() {
-		
+
 		return "Hello World!!!";
 	}
 
 	@RequestMapping("/home")
-	public String home() throws CCCError {
-		if(1==1) {
-			throw new CCCError(Constants.DEVICE_NOT_FOUND, Constants.DEVICE_NOT_ACCESSIBLE);
-			}
+	public String home() {
 		return "Hello Home!!!";
 	}
 
 	@RequestMapping("/toggle")
-	public String light() throws CCCError {
-		try {
+	public String light() {
 		getPin().toggle();
-		}catch(Exception e) {
-			throw new CCCError(Constants.DEVICE_NOT_FOUND, Constants.DEVICE_NOT_ACCESSIBLE);
-		}
 		return "OK";
 	}
 
@@ -43,62 +34,52 @@ public class LedController {
 		return (getPin().isHigh() ? "Light is ON" : "Light is OFF");
 	}
 
-	@RequestMapping("/on")
-	public String on() throws CCCError {
-		try {
-		getPin().high();
-		}catch(Exception e) {
-			//throw new CCCError(Constants.DEVICE_NOT_FOUND, Constants.DEVICE_NOT_ACCESSIBLE);
-			System.out.println("Exception Occured:"+e.getMessage());
-			
-		}
+	@RequestMapping("/on26")
+	public String on() {
+		GpioController gpio = GpioFactory.getInstance();
+		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MyLED", PinState.LOW);
+		pin.high();
+		return checkState();
+	}
+
+	@RequestMapping("/off26")
+	public String off() {
+		GpioController gpio = GpioFactory.getInstance();
+		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_26, "MyLED", PinState.LOW);
+		getPin().low();
 		return checkState();
 	}
 
 	@RequestMapping("/off25")
 	public String off4() {
-		getPin25().low();
+		GpioController gpio = GpioFactory.getInstance();
+		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_25, "MyLED", PinState.LOW);
+		pin.low();
 		return checkState();
 	}
+
 	@RequestMapping("/on25")
 	public String on4() throws CCCError {
-		try {
-		getPin25().high();
-		}catch(Exception e) {
-			//throw new CCCError(Constants.DEVICE_NOT_FOUND, Constants.DEVICE_NOT_ACCESSIBLE);
-			System.out.println("Exception Occured:"+e.getMessage());
-			
-		}
+		GpioController gpio = GpioFactory.getInstance();
+		pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_25, "MyLED", PinState.LOW);
+		pin.high();
 		return checkState();
 	}
+
 	@RequestMapping("/state25")
 	public String status() {
 		return getPin25().getState().toString();
 	}
 
-	@RequestMapping("/off")
-	public String off() {
-		getPin().low();
-		return checkState();
-	}
-
 	@RequestMapping("/blink")
 	public String blink() throws CCCError {
-		try {
 		getPin().blink(200L, 5000L);
-		}catch(Exception e) {
-			throw new CCCError(Constants.DEVICE_NOT_FOUND, Constants.DEVICE_NOT_ACCESSIBLE);
-		}
 		return "Light is blinking...";
 	}
 
 	@RequestMapping("/pulse")
 	public String pulse() throws CCCError {
-		try {
 		getPin().pulse(5000L);
-		}catch(Exception e) {
-			throw new CCCError(Constants.DEVICE_NOT_FOUND, Constants.DEVICE_NOT_ACCESSIBLE);
-		}
 		return "Light is pulsing...";
 	}
 
@@ -109,6 +90,7 @@ public class LedController {
 		}
 		return pin;
 	}
+
 	private GpioPinDigitalOutput getPin25() {
 		if (pin == null) {
 			GpioController gpio = GpioFactory.getInstance();
