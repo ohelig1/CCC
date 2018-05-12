@@ -45,6 +45,18 @@ public class LedController {
 		return checkState();
 	}
 	
+	@RequestMapping("/blink")
+	public String blink() {
+		getPin().blink(200L,5000L);
+		return "Light is blinking...";
+	}
+	
+	@RequestMapping("/pulse")
+	public String pulse() {
+		getPin().pulse(5000L);
+		return "Light is pulsing...";
+	}
+	
 	private GpioPinDigitalOutput getPin() {
 		if (pin == null) {
 			pin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01, "MyLED", PinState.LOW);
