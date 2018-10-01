@@ -54,7 +54,7 @@ public class LedController {
 	public String blink(@PathVariable("colour") String colour) {
 		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.blink(200L, 5000L);
-		//cleanUpTask();
+		cleanUpTask();
 		return "Light is blinking...";
 	}
 
@@ -66,8 +66,20 @@ public class LedController {
 		return "Light is pulsing...";
 	}
 	public void cleanUpTask() {
-		this.gpioPinDigitalOutput.removeAllListeners();
-		gpio.shutdown(); 
-		gpio.unprovisionPin(this.gpioPinDigitalOutput);
+		try {
+			this.gpioPinDigitalOutput.clearProperties();
+		}catch(Exception e) {
+			System.out.println("Remove All Listeners:"+e.getMessage());
+		}
+		try {
+			gpio.unprovisionPin(this.gpioPinDigitalOutput);
+		}catch(Exception e) {
+			System.out.println("GPIO UnprovisionPin:"+e.getMessage());
+		}
+		try {
+			gpio.shutdown();
+		}catch(Exception e) {
+			System.out.println("GPIO Shutdown:"+e.getMessage());
+		}		
 	}
 }
