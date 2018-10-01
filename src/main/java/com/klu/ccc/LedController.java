@@ -54,7 +54,7 @@ public class LedController {
 	public String blink(@PathVariable("colour") String colour) {
 		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.blink(200L, 5000L);
-		cleanUpTask();
+		//cleanUpTask();
 		return "Light is blinking...";
 	}
 
