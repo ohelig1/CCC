@@ -21,7 +21,7 @@ public class LedController {
 
 	@RequestMapping("/{colour}/toggle")
 	public String light(@PathVariable("colour") String colour) {
-		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), "MyLED", PinState.LOW);
+		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour , PinState.LOW);
 		gpioPinDigitalOutput.toggle();
 		gpio.shutdown(); 
 		gpio.unprovisionPin(gpioPinDigitalOutput);
@@ -30,7 +30,7 @@ public class LedController {
 
 	@RequestMapping("/{colour}/status")
 	private String getPinStatus(@PathVariable("colour") String colour) {
-		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), "MyLED", PinState.LOW);
+		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		String status = gpioPinDigitalOutput.isHigh() ? "Light is ON" : "Light is OFF";
 		gpio.shutdown(); 
 		gpio.unprovisionPin(gpioPinDigitalOutput);
@@ -39,7 +39,7 @@ public class LedController {
 
 	@RequestMapping("/{colour}/on")
 	public String on(@PathVariable("colour") String colour) {
-		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), "MyLED", PinState.LOW);
+		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.high();
 		gpio.shutdown(); 
 		gpio.unprovisionPin(gpioPinDigitalOutput);
@@ -48,7 +48,7 @@ public class LedController {
 
 	@RequestMapping("/{colour}/off")
 	public String off(@PathVariable("colour") String colour) {
-		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), "MyLED", PinState.LOW);
+		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.low();
 		gpio.shutdown(); 
 		gpio.unprovisionPin(gpioPinDigitalOutput);
@@ -57,7 +57,7 @@ public class LedController {
 
 	@RequestMapping("/{colour}/blink")
 	public String blink(@PathVariable("colour") String colour) {
-		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), "MyLED", PinState.LOW);
+		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.blink(200L, 5000L);
 		gpio.shutdown(); 
 		gpio.unprovisionPin(gpioPinDigitalOutput);
@@ -66,7 +66,7 @@ public class LedController {
 
 	@RequestMapping("/{colour}/pulse")
 	public String pulse(@PathVariable("colour") String colour) {
-		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), "MyLED", PinState.LOW);
+		GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.pulse(5000L);
 		gpio.shutdown(); 
 		gpio.unprovisionPin(gpioPinDigitalOutput);
