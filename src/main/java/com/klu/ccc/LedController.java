@@ -3,15 +3,11 @@ package com.klu.ccc;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
-
 import com.klu.utility.CommonUtils;
 import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
-import com.pi4j.io.gpio.GpioPin;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
-import com.pi4j.io.gpio.Pin;
 import com.pi4j.io.gpio.PinState;
-import com.pi4j.io.gpio.RaspiPin;
 
 @RestController
 public class LedController {
@@ -26,7 +22,6 @@ public class LedController {
 	public String light(@PathVariable("colour") String colour) {
 		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour , PinState.LOW);
 		gpioPinDigitalOutput.toggle();
-	//	cleanUpTask(gpioPinDigitalOutput);
 		gpio.unprovisionPin(gpioPinDigitalOutput);
 		return "Toggle Successful";
 	}
@@ -35,7 +30,6 @@ public class LedController {
 	private String getPinStatus(@PathVariable("colour") String colour) {
 		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		String status = gpioPinDigitalOutput.isHigh() ? "Light is ON" : "Light is OFF";
-	//	cleanUpTask(gpioPinDigitalOutput);
 		gpio.unprovisionPin(gpioPinDigitalOutput);
 		return status;
 	}
@@ -45,7 +39,6 @@ public class LedController {
 		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.high();
 		gpio.unprovisionPin(gpioPinDigitalOutput);
-	//	cleanUpTask(gpioPinDigitalOutput);
 		return "Light is ON!!!";
 	}
 
@@ -54,16 +47,14 @@ public class LedController {
 		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.low();
 		gpio.unprovisionPin(gpioPinDigitalOutput);
-	//	cleanUpTask(gpioPinDigitalOutput);
 		return "Light is OFF!!!";
 	}
 
 	@RequestMapping("/{colour}/blink")
 	public String blink(@PathVariable("colour") String colour) {
-		final GpioPinDigitalOutput ledPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01);
-		ledPin.blink(200L, 5000L);
+		gpioPinDigitalOutput= gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
+		gpioPinDigitalOutput.blink(200L, 5000L);
 		gpio.unprovisionPin(gpioPinDigitalOutput);
-	//	cleanUpTask(ledPin);
 		return "Light is blinking...";
 	}
 
@@ -75,12 +66,16 @@ public class LedController {
 		return "Light is pulsing...";
 	}
 	
-	/*public void cleanUpTask(GpioPinDigitalOutput  gpioPinDigitalOutput) {
+	/*	To Remove For reference:::
+	 * 
+	 * public void cleanUpTask(GpioPinDigitalOutput  gpioPinDigitalOutput) {
+	 *  For Clearing Properties. 
 		try {
 			gpioPinDigitalOutput.clearProperties();
 		}catch(Exception e) {
 			System.out.println("Remove All Listeners:"+e.getMessage());
 		}
+		//Only use shutdown for terminating. It's not recommended to use shutdown in running applicaiton.
 		try {
 			gpio.shutdown();
 		}catch(Exception e) {
