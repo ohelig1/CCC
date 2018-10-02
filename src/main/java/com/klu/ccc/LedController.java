@@ -8,6 +8,7 @@ import com.pi4j.io.gpio.GpioController;
 import com.pi4j.io.gpio.GpioFactory;
 import com.pi4j.io.gpio.GpioPinDigitalOutput;
 import com.pi4j.io.gpio.PinState;
+import com.pi4j.io.gpio.RaspiPin;
 
 @RestController
 public class LedController {
@@ -52,7 +53,7 @@ public class LedController {
 
 	@RequestMapping("/{colour}/blink")
 	public String blink(@PathVariable("colour") String colour) {
-		final GpioPinDigitalOutput ledPin = gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour));
+		final GpioPinDigitalOutput ledPin = gpio.provisionDigitalOutputPin(RaspiPin.GPIO_01);
 		ledPin.blink(200L, 5000L);
 		cleanUpTask(ledPin);
 		return "Light is blinking...";
@@ -73,12 +74,12 @@ public class LedController {
 			System.out.println("Remove All Listeners:"+e.getMessage());
 		}
 		try {
-			gpio.unprovisionPin(gpioPinDigitalOutput);
+			gpio.shutdown();
 		}catch(Exception e) {
 			System.out.println("GPIO UnprovisionPin:"+e.getMessage());
 		}
 		try {
-			gpio.shutdown();
+			gpio.unprovisionPin(gpioPinDigitalOutput);
 		}catch(Exception e) {
 			System.out.println("GPIO Shutdown:"+e.getMessage());
 		}		
