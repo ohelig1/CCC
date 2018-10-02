@@ -12,7 +12,7 @@ import com.pi4j.io.gpio.PinState;
 @RestController
 public class LedController {
 	private static final GpioController gpio = GpioFactory.getInstance();
-	GpioPinDigitalOutput gpioPinDigitalOutput;
+//	GpioPinDigitalOutput gpioPinDigitalOutput;
 	@RequestMapping("/")
 	public String greeting() {
 		return "Hello World!!!";
@@ -20,59 +20,60 @@ public class LedController {
 
 	@RequestMapping("/{colour}/toggle")
 	public String light(@PathVariable("colour") String colour) {
-		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour , PinState.LOW);
+		final GpioPinDigitalOutput gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour , PinState.LOW);
 		gpioPinDigitalOutput.toggle();
-		cleanUpTask();
+		cleanUpTask(gpioPinDigitalOutput);
 		return "Toggle Successful";
 	}
 
 	@RequestMapping("/{colour}/status")
 	private String getPinStatus(@PathVariable("colour") String colour) {
-		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
+		final GpioPinDigitalOutput  gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		String status = gpioPinDigitalOutput.isHigh() ? "Light is ON" : "Light is OFF";
-		cleanUpTask();
+		cleanUpTask(gpioPinDigitalOutput);
 		return status;
 	}
 
 	@RequestMapping("/{colour}/on")
 	public String on(@PathVariable("colour") String colour) {
-		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
+		final GpioPinDigitalOutput  gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.high();
-		cleanUpTask();
+		cleanUpTask(gpioPinDigitalOutput);
 		return "Light is ON!!!";
 	}
 
 	@RequestMapping("/{colour}/off")
 	public String off(@PathVariable("colour") String colour) {
-		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
+		final GpioPinDigitalOutput  gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.low();
-		cleanUpTask();
+		cleanUpTask(gpioPinDigitalOutput);
 		return "Light is OFF!!!";
 	}
 
 	@RequestMapping("/{colour}/blink")
 	public String blink(@PathVariable("colour") String colour) {
-		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
-		gpioPinDigitalOutput.blink(200L, 5000L);
-		cleanUpTask();
+		final GpioPinDigitalOutput ledPin = gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour));
+		ledPin.blink(200L, 5000L);
+		cleanUpTask(ledPin);
 		return "Light is blinking...";
 	}
 
 	@RequestMapping("/{colour}/pulse")
 	public String pulse(@PathVariable("colour") String colour) {
-		gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
+		final GpioPinDigitalOutput  gpioPinDigitalOutput =  gpio.provisionDigitalOutputPin(CommonUtils.getPinNumber(colour), colour, PinState.LOW);
 		gpioPinDigitalOutput.pulse(5000L);
-		cleanUpTask();
+		cleanUpTask(gpioPinDigitalOutput);
 		return "Light is pulsing...";
 	}
-	public void cleanUpTask() {
+	
+	public void cleanUpTask(GpioPinDigitalOutput  gpioPinDigitalOutput) {
 		try {
-			this.gpioPinDigitalOutput.clearProperties();
+			gpioPinDigitalOutput.clearProperties();
 		}catch(Exception e) {
 			System.out.println("Remove All Listeners:"+e.getMessage());
 		}
 		try {
-			gpio.unprovisionPin(this.gpioPinDigitalOutput);
+			gpio.unprovisionPin(gpioPinDigitalOutput);
 		}catch(Exception e) {
 			System.out.println("GPIO UnprovisionPin:"+e.getMessage());
 		}
