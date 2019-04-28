@@ -23,6 +23,9 @@ routerApp.config(function($stateProvider, $urlRouterProvider) {
 routerApp.controller('serviceController', function($scope,$http) {
     
     $scope.employees=undefined;
+    $scope.red = "red";
+    $scope.yellow = "yellow";
+    $scope.green = "green";
     var fetchData = function(){
         $http.get("http://localhost:8081/employee/").then(function(response){
         $scope.employees = response.data;
