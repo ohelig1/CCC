@@ -1,13 +1,13 @@
 ----------------------------------------------------------------
-Tue May 08 13:26:39 BST 2018:
-Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-0163-3fb7-c865-00000029abe8 
-on database directory memory:D:\Users\yanish.p\oxygen-workspace\ccc\ccc\testdb with class loader org.springframework.boot.loader.LaunchedURLClassLoader@5f4c2e 
-Loaded from jar:file:/D:/Users/yanish.p/oxygen-workspace/ccc/ccc/target/ccc-0.0.1-SNAPSHOT.jar!/BOOT-INF/lib/derby-10.14.1.0.jar!/
+Sun Apr 28 15:24:22 IST 2019:
+Booting Derby version The Apache Software Foundation - Apache Derby - 10.14.1.0 - (1808820): instance a816c00e-016a-635d-f245-0000105be700 
+on database directory memory:/home/pojke/eclipse-workspace/CCC/CCC/testdb with class loader sun.misc.Launcher$AppClassLoader@2a139a55 
+Loaded from file:/home/pojke/.m2/repository/org/apache/derby/derby/10.14.1.0/derby-10.14.1.0.jar
 java.vendor=Oracle Corporation
-java.runtime.version=1.8.0_92-b14
-user.dir=D:\Users\yanish.p\oxygen-workspace\ccc\ccc
-os.name=Windows 7
-os.arch=x86
-os.version=6.1
+java.runtime.version=1.8.0_181-b13
+user.dir=/home/pojke/eclipse-workspace/CCC/CCC
+os.name=Linux
+os.arch=amd64
+os.version=4.15.0-47-generic
 derby.system.home=null
 Database Class Loader started - derby.database.classpath=''

@@ -3,31 +3,62 @@
 <head>
 
     <!-- CSS (load bootstrap) -->
-    <link rel="stylesheet" href="//netdna.bootstrapcdn.com/bootstrap/3.1.1/css/bootstrap.min.css">
-    <link rel="stylesheet" href="css/bootstrap2-toggle.min.css">
+    <link rel="stylesheet" href="css/bootstrap.min.css">
+    <link rel="stylesheet" href="css/bootstrap-theme.min.css">
+    <link rel="stylesheet" href="css/bootstrap-toggle-master/css/bootstrap-toggle.min.css">
+    <link href="css/simple-sidebar.css" rel="stylesheet">
     <style>
         .navbar { border-radius:0; }
     </style>
 
     <!-- JS (load angular, ui-router, and our custom js file) -->
-    <script src="http://code.angularjs.org/1.2.13/angular.js"></script>
-    <script src="//cdnjs.cloudflare.com/ajax/libs/angular-ui-router/0.2.8/angular-ui-router.min.js"></script>
-    <script src="js/bootstrap2-toggle.min.js"></script>
+    <script src="js/jquery.slim.js"></script>
+    <script src="js/bootstrap.min.js"></script>
+    <script src="css/bootstrap-toggle-master/js/bootstrap-toggle.min.js"></script>
+    <script src="js/angular.js"></script>
+    <script src="js/angular-ui-router.js"></script>
+
+   <!--  <script src="js/bootstrap.bundle.min.js"></script> -->
     <script src="app.js"></script>
 </head>
 
 <!-- apply our angular app to our site -->
 <body ng-app="routerApp">
-
+<header>
+      <img src="images/logo.jpg"  alt="logo area" align = "right" class="logo" height="160" width="160" margin=0/>
+    <div class="jumbotron" style="padding-bottom: 44px; margin-bottom: 0px" >
+        <div class="container">
+            <div class="col-xs-9">
+                <h1>Tiarrah Computing: The Next Generation of Computing</h1>
+            </div>
+            
+        </div>
+    </div>
+</header>
 <!-- NAVIGATION -->
-<nav class="navbar navbar-inverse" role="navigation">
+<!--     <div class="bg-light border-right" id="sidebar-wrapper">
+      <div class="sidebar-heading"><h4>Tiarrah Computing</h4> </div>
+       <div class="list-group list-group-flush">
+	 	<ul>
+	        <li><a ui-sref="home">Home</a></li>
+	        <li><a ui-sref="service">Service</a></li>
+	    </ul>
+      </div>
+    </div>  -->
+<nav class="navbar navbar-inverse" style="height: 56px; width: 1856px; role="navigation">
     <div class="navbar-header">
-        <a class="navbar-brand" ui-sref="#">AngularUI Router</a>
+        <a class="navbar-brand text-success" ui-sref="#">Tiarrah Computing</a>
+        <a class="navbar-brand text-success" ui-sref="home">Home</a>
+        <a class="navbar-brand text-success" ui-sref="service">Service</a>
+    </div>
+    <!-- 
+         <div class="navbar-header">
+        <a class="navbar-brand" ui-sref="service">Service</a>
     </div>
     <ul class="nav navbar-nav">
         <li><a ui-sref="home">Home</a></li>
         <li><a ui-sref="service">Service</a></li>
-    </ul>
+    </ul> -->
 </nav>
 
 <!-- MAIN CONTENT -->
