@@ -30,7 +30,27 @@ routerApp.controller('serviceController', function($scope,$http) {
         };
     $scope.fetchData = fetchData;
 
-    var ledOnOffOperation = function(){
+    $scope.ledToggleOperation = function(colour){
+    	var url = "http://192.168.43.248:8989/"+colour +"/toggle";
+    	$http.get(url).then(function(response){
+    	     console.log(response.data);
+    	});
+	};
+	
+    $scope.ledBlinkOperation = function(colour){
+    	var url = "http://192.168.43.248:8989/"+colour +"/blink";
+    	$http.get(url).then(function(response){
+    	     console.log(response.data);
+    	});	
+	};
+
+    $scope.ledPulseOperation = function(colour){
+    	var url = "http://192.168.43.248:8989/"+colour +"/pulse";
+    	$http.get(url).then(function(response){
+    	     console.log(response.data);
+    	});	
+	};
+    /*var ledOnOffOperation = function(){
         $http.get("http://192.168.0.103:8989/red/on").then(function(response){
         console.log(response.data);
         });
@@ -49,5 +69,5 @@ routerApp.controller('serviceController', function($scope,$http) {
         console.log(response.data);
         });
     }
-    $scope.ledOnBlinkOperation = ledOnBlinkOperation;
+    $scope.ledOnBlinkOperation = ledOnBlinkOperation;*/
 });
