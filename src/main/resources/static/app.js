@@ -31,7 +31,9 @@ routerApp.controller('serviceController', function($scope,$http) {
     $scope.fetchData = fetchData;
 
     $scope.ledToggleOperation = function(colour){
-    	var url = "http://192.168.43.248:8989/"+colour +"/toggle";
+    	console.log("Printing Colour:"+colour);
+    	var c = colour;
+    	var url = "http://192.168.43.248:8989/"+c+"/toggle";
     	$http.get(url).then(function(response){
     	     console.log(response.data);
     	});
